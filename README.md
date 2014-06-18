@@ -1,8 +1,8 @@
-![Kami-sama](http://i.imgur.com/i27moCV.png)
+![Kami-sama](http://i.imgur.com/t6BrZ9Y.png)
 
 If you like my releases, feel free to [buy my meso]('https://ccplz.net/threads/s-meso-16%E2%82%AC-b-taxes-covered-paypal-btc-ltc-doge.60888/') or [donate]('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5E289LJ5UUG3Q')!
 
-Note: this is still a draft and it might not be 100% stable, so please let me know how well it works for you. I will make it opensource once I finish cleaning up the source and making everything AoB-based.
+Note: this is still a draft and it might not be 100% stable and the code needs to be cleaned up.
 
 Requirements:
 ============
@@ -17,6 +17,15 @@ Quick feature overview (read this before you use it!):
 * Loot: enable this and the kami will automatically teleport to items and press Z to loot them (you don't need any extra autoloot, but at low teleport speeds an external autoloot might speed things up slightly).
 * Spam CTRL: this will autoattack by pressing CTRL when sticking to mobs. All the automatic keypresses in this bot use the internal maplestory input handler CWndMan::OnKey, so it will never miss a keystroke and it will also work minimized just like PostMessage.
 * No Mov. (**not bypassless!**): enabling this will allow you to kami as fast as you can but it has some important drawbacks: first of all, your movement will be client-sided and other people will see you standing where you were when you ticked kami. This means that the only monsters you will see and kill are the ones your game loaded from your initial position, so your range will be smaller and it will get stuck on big maps. Also, **as far as I know, using anything besides skill inject and GnD *might autoban* with No Mov. ticked and it will also cause you to randomly D/C when disabling kami because of invalid movement packets (I'll fix this in future updates by teleporting back to the initial position)**.
+* GnD (**not bypassless!**): general no-delay. It will allow you to spam some skills and attacks infinitely fast (in fact, most skills & attacks).
+* P.Loot (**not bypassless!**): perfect loot. Disables item drop animations and speeds up looting.
+* Unlimited MP (**not bypassless!**)
+* Full GM (**not bypassless!**): full godmode. Makes you invincible.
+* Filter (**not bypassless!**): item filter. At the moment it will hide any item (even meso) when ticked. I will add a gui to choose to allow / reject items ASAP.
+* CPU Hax (**not bypassless!**): disables clouds, backgrounds, terrain and damage to minimize cpu / memory usage
+* FA (**not bypassless!**): fusion attack. Makes AoE attacks only focus on one mobs to maximise DPS on a single target.
+* Mob Lag (**not bypassless!**): freezes monsters.
+* Skill Injection (**not bypassless!**): no-delay for skills that don't work with GnD. At the moment the delay is set to 1, but it will be configurable in the next revisions.
 
 Introduction:
 ============
