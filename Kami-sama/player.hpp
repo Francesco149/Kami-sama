@@ -19,15 +19,16 @@
 
 #pragma once
 #include "common.h"
+#include "utils.hpp"
 #include <boost/shared_ptr.hpp>
 
 namespace maple
 {
 	// wrapper to read and write data to TSingleton<CUserLocal>
-	class player
+	class makesingleton(player)
 	{
 	public:
-		static boost::shared_ptr<player> get();
+		player();
 		virtual ~player();
 
 		// some class instance used to retrieve the instance to call CVecCtrlUser__OnTeleport
@@ -35,9 +36,6 @@ namespace maple
 		void *getteleportbase();
 
 	protected:
-		static boost::shared_ptr<player> inst;
 		byte **TSingleton_CUserLocal___ms_pInstance; // TSingleton<CUserLocal> (char base)
-
-		player();
 	};
 }

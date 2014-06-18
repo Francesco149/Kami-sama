@@ -19,22 +19,12 @@
 
 #include "physicalspace.hpp"
 #include "aobscan.hpp"
-#include "utils.h"
 
 #define basenull() (TSingleton_CWvsPhysicalSpace2D___ms_pInstance == NULL)
+makesingletoninstance(maple::physicalspace)
 
 namespace maple
 {
-	boost::shared_ptr<physicalspace> physicalspace::inst;
-
-	boost::shared_ptr<physicalspace> physicalspace::get()
-	{
-		if (!inst.get())
-			inst.reset(new physicalspace);
-
-		return inst;
-	}
-
 	physicalspace::physicalspace()
 		: TSingleton_CWvsPhysicalSpace2D___ms_pInstance(NULL)
 	{

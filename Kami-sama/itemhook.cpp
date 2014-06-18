@@ -18,7 +18,6 @@
 */
 
 #include "itemhook.hpp"
-#include "utils.h"
 #include "aobscan.hpp"
 #include <Windows.h>
 
@@ -26,18 +25,10 @@
 // retaddy: add 6 to result: FF 15 ? ? ? ? 85 C0 75 ? 8D 4C 24 ? C7 44 24 ? ? ? ? ? E8 ? ? ? ? EB ? 83 C6 ? 8D 7E ? 57
 // pfunction: pointer called above retaddy
 
+makesingletoninstance(maple::itemhook)
+
 namespace maple
 {
-	boost::shared_ptr<itemhook> itemhook::inst;
-
-	boost::shared_ptr<itemhook> itemhook::get()
-	{
-		if (!inst.get())
-			inst.reset(new itemhook);
-
-		return inst;
-	}
-
 	itemhook::itemhook()
 		: memory::iathook(
 			  NULL, 

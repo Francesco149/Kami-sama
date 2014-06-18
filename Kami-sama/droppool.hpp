@@ -19,7 +19,7 @@
 
 #pragma once
 #include "common.h"
-#include <boost/shared_ptr.hpp>
+#include "utils.hpp"
 
 #include <Windows.h>
 #include <wx/msw/winundef.h>
@@ -27,19 +27,15 @@
 namespace maple
 {
 	// wrapper to read and write data to TSingleton<CDropPool>
-	class droppool
+	class makesingleton(droppool)
 	{
 	public:
-		static boost::shared_ptr<droppool> get();
+		droppool();
 		virtual ~droppool();
-
 		dword size();
 
 	protected:
-		static boost::shared_ptr<droppool> inst;
 		byte **TSingleton_CDropPool___ms_pInstance; // TSingleton<CDropPool> (item base)
 		word offsize;
-
-		droppool();
 	};
 }

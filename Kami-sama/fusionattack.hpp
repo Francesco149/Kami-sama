@@ -18,25 +18,19 @@
 */
 
 #pragma once
-#include "common.h"
 #include "utils.hpp"
-
-#include <Windows.h>
-#include <wx/msw/winundef.h>
+#include "memoryhack.hpp"
 
 namespace maple
 {
-	// wrapper to read and write data to TSingleton<CWvsPhysicalSpace2D>
-	class makesingleton(physicalspace)
+	class makesingleton(fusionattack), public memory::memoryhack
 	{
 	public:
-		physicalspace();
-		virtual ~physicalspace();
-		POINT getltwall();
+		fusionattack();
+		virtual ~fusionattack();
 
 	protected:
-		byte **TSingleton_CWvsPhysicalSpace2D___ms_pInstance; // TSingleton<CWvsPhysicalSpace2D> (wall base)
-		word offltwallx;
-		word offltwally;
+		static dword retaddy;
+		static void hook();
 	};
 }

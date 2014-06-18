@@ -18,27 +18,36 @@
 */
 
 #pragma once
-#include "common.h"
+#include "utils.hpp"
+#include "memoryhack.hpp"
+#include <vector>
 
-// hack to avoid including Windows.h and having to undefine everything to avoid conflicts with wx
-struct HWND__; 
-typedef HWND__ *HWND;
-struct HINSTANCE__;
-typedef HINSTANCE__ *HINSTANCE;
-typedef HINSTANCE HMODULE;
-
-// maplestory utility funcs
 namespace maple
 {
-	HWND wnd(); // returns a handle (HWND) to the in-game window
-	void *base(); // returns the module base address
-	size_t size(); // returns the module size
-}
+	class makesingleton(itemfilter), public memory::memoryhack
+	{
+	public:
+		enum
+		{
+			MODE_ACCEPT = 0, 
+			MODE_REJECT = 1
+		};
 
-// utilities to read & write memory
-namespace memory
-{
-	bool getmodulesize(HMODULE hModule, void **pbase, size_t *psize);
-	dword makepagewritable(void *address, size_t cb, dword flprotect = 0x40);
-	void writejmp(byte *address, void *hook, size_t nops = 0);
+		itemfilter();
+		virtual ~itemfilter();
+		void push_back(const dword &itemid);
+		void erase(const dword &itemid);
+		void setmeso(dword meso);
+		void setmode(dword mode);
+		bool contains(dword itemid);
+
+	protected:
+		static dword retaddy;
+		std::vector<dword> items;
+		dword meso;
+		dword mode;
+
+		static void __stdcall handlecall(dword *pitemid, dword *pmeso);
+		static void hook();
+	};
 }

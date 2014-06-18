@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\pointers">
+      <UniqueIdentifier>{612915ae-9531-4718-a20b-3f601917fd05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\hacks">
+      <UniqueIdentifier>{a9cf887a-1190-4b01-a321-cdb0735c713d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{7325ae3a-7e73-46e5-a1a4-f63ed31a611b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -21,38 +30,65 @@
     <ClCompile Include="mainform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="iathook.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="itemhook.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="kami.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="aobscan.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mobpool.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\pointers</Filter>
     </ClCompile>
     <ClCompile Include="physicalspace.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\pointers</Filter>
     </ClCompile>
-    <ClCompile Include="droppool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="memoryhack.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="mobpool.cpp">
+      <Filter>Source Files\pointers</Filter>
     </ClCompile>
     <ClCompile Include="window.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\pointers</Filter>
+    </ClCompile>
+    <ClCompile Include="droppool.cpp">
+      <Filter>Source Files\pointers</Filter>
+    </ClCompile>
+    <ClCompile Include="gnd.cpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="itemhook.cpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="kami.cpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="perfectloot.cpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="aobscan.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="iathook.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="memoryhack.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="unlimitedmp.cpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="fullgodmode.cpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="itemfilter.cpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="cpuhack.cpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="fusionattack.cpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="moblag.cpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClCompile>
+    <ClCompile Include="skillinject.cpp">
+      <Filter>Source Files\hacks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,41 +98,68 @@
     <ClInclude Include="resource.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="itemhook.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="common.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="iathook.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="kami.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="player.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="aobscan.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mobpool.hpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\pointers</Filter>
     </ClInclude>
     <ClInclude Include="physicalspace.hpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\pointers</Filter>
     </ClInclude>
-    <ClInclude Include="droppool.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memoryhack.hpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="mobpool.hpp">
+      <Filter>Source Files\pointers</Filter>
     </ClInclude>
     <ClInclude Include="window.hpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="droppool.hpp">
+      <Filter>Source Files\pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="gnd.hpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="itemhook.hpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="kami.hpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="perfectloot.hpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="aobscan.hpp">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="iathook.hpp">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="memoryhack.hpp">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.hpp">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="unlimitedmp.hpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="fullgodmode.hpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="itemfilter.hpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="cpuhack.hpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="fusionattack.hpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="moblag.hpp">
+      <Filter>Source Files\hacks</Filter>
+    </ClInclude>
+    <ClInclude Include="skillinject.hpp">
+      <Filter>Source Files\hacks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

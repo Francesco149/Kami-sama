@@ -19,22 +19,12 @@
 
 #include "player.hpp"
 #include "aobscan.hpp"
-#include "utils.h"
 
 #define basenull() (TSingleton_CUserLocal___ms_pInstance == NULL)
+makesingletoninstance(maple::player)
 
 namespace maple
 {
-	boost::shared_ptr<player> player::inst;
-
-	boost::shared_ptr<player> player::get()
-	{
-		if (!inst.get())
-			inst.reset(new player);
-
-		return inst;
-	}
-
 	player::player()
 		: TSingleton_CUserLocal___ms_pInstance(NULL)
 	{

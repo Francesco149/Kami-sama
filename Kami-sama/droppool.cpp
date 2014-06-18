@@ -19,22 +19,13 @@
 
 #include "droppool.hpp"
 #include "aobscan.hpp"
-#include "utils.h"
 
 #define basenull() (TSingleton_CDropPool___ms_pInstance == NULL)
 
+makesingletoninstance(maple::droppool)
+
 namespace maple
 {
-	boost::shared_ptr<droppool> droppool::inst;
-
-	boost::shared_ptr<droppool> droppool::get()
-	{
-		if (!inst.get())
-			inst.reset(new droppool);
-
-		return inst;
-	}
-
 	droppool::droppool()
 		: TSingleton_CDropPool___ms_pInstance(NULL)
 	{

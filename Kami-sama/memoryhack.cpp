@@ -18,21 +18,47 @@
 */
 
 #include "memoryhack.hpp"
-#include "utils.h"
+#include "utils.hpp"
+#include "aobscan.hpp"
 #include <memory>
 
 namespace memory
 {
-	memoryhack::memoryhack(byte *address, byte *modifiedmemory, size_t count)
-		: address(address), count(count)
+	void memoryhack::init(const byte *modifiedmemory, size_t count)
 	{
+		this->count = count;
+
 		modified.reset(new byte[count]);
 		clean.reset(new byte[count]);
 
 		makepagewritable(address, count);
 
-		std::copy(modifiedmemory, modifiedmemory + count, modified.get());
+		if (modifiedmemory != NULL)
+			std::copy(modifiedmemory, modifiedmemory + count, modified.get());
+
 		std::copy(address, address + count, clean.get());
+	}
+
+	memoryhack::memoryhack(std::string aob, const byte *modifiedmemory, size_t count, size_t offset)
+		: enabled(false), 
+		  address(NULL), 
+		  count(0)
+	{
+		void *pmodule = maple::base();
+		size_t cbmodule = maple::size();
+		memory::aobscan scanaddy(aob, pmodule, cbmodule);
+
+		if (scanaddy.result() != NULL)
+		{
+			address = scanaddy.result() + offset;
+			init(modifiedmemory, count);
+		}
+	}
+
+	memoryhack::memoryhack(byte *address, const byte *modifiedmemory, size_t count)
+		: address(address)
+	{
+		init(modifiedmemory, count);
 	}
 
 	memoryhack::~memoryhack()
@@ -43,6 +69,8 @@ namespace memory
 
 	bool memoryhack::enable(bool enabled)
 	{
+		makepagewritable(address, count);
+
 		if (this->enabled == enabled)
 			return false;
 
@@ -56,5 +84,15 @@ namespace memory
 
 		this->enabled = enabled;
 		return true;
+	}
+
+	bool memoryhack::initialized()
+	{
+		return address != NULL;
+	}
+
+	byte *memoryhack::getaddress()
+	{
+		return address;
 	}
 }

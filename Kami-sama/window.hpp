@@ -20,12 +20,12 @@
 #pragma once
 
 #include "common.h"
-#include <boost/shared_ptr.hpp>
+#include "utils.hpp"
 
 namespace maple
 {
 	// a wrapper around maple's CWndMan
-	class window
+	class makesingleton(window)
 	{
 	public:
 		enum
@@ -42,13 +42,11 @@ namespace maple
 			KEY_Z = 0x002C0000
 		};
 
-		static boost::shared_ptr<window> get();
+		window();
 		virtual ~window();
 		void onkey(unsigned int unknown, unsigned int key, bool spoofthread = false);
 
 	protected:
-		static boost::shared_ptr<window> inst;
-		
 		static byte **TSingleTon_CWndMan___ms_pInstance;
 
 		typedef void (__fastcall *pfnCWndMan__OnKey)(void *pthis, void *edx, unsigned int unknown, unsigned int key);
@@ -59,7 +57,5 @@ namespace maple
 		
 		static dword maplethreadid;
 		static void getmaplethreadid();
-
-		window();
 	};
 }

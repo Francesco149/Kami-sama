@@ -19,7 +19,6 @@
 
 #include "window.hpp"
 #include "aobscan.hpp"
-#include "utils.h"
 
 #include <boost/make_shared.hpp>
 #include <boost/thread.hpp>
@@ -39,21 +38,13 @@ call 00FEAC00 // CWndMan::OnKey
 // 90 C3 2nd result
 
 #define basenull() (TSingleTon_CWndMan___ms_pInstance == NULL)
+makesingletoninstance(maple::window)
 
 namespace maple
 {
-	boost::shared_ptr<window> window::inst;
 	byte **window::TSingleTon_CWndMan___ms_pInstance = NULL;
 	window::pfnCWndMan__OnKey window::CWndMan__OnKey = NULL;
 	dword window::maplethreadid = NULL;
-
-	boost::shared_ptr<window> window::get()
-	{
-		if (!inst.get())
-			inst.reset(new window);
-
-		return inst;
-	}
 
 	window::window()
 		//: TSingleTon_CWndMan___ms_pInstance(NULL), 

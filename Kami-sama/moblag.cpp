@@ -17,26 +17,24 @@
 	along with Kami-sama. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-#include "common.h"
-#include "utils.hpp"
+#include "moblag.hpp"
 
-#include <Windows.h>
-#include <wx/msw/winundef.h>
+makesingletoninstance(maple::moblag)
 
 namespace maple
 {
-	// wrapper to read and write data to TSingleton<CWvsPhysicalSpace2D>
-	class makesingleton(physicalspace)
-	{
-	public:
-		physicalspace();
-		virtual ~physicalspace();
-		POINT getltwall();
+	const byte lagmem[] = { 0xEB };
+	const size_t cblagmem = sizeof(lagmem);
 
-	protected:
-		byte **TSingleton_CWvsPhysicalSpace2D___ms_pInstance; // TSingleton<CWvsPhysicalSpace2D> (wall base)
-		word offltwallx;
-		word offltwally;
-	};
+	moblag::moblag()
+		: memory::memoryhack(std::string("77 ? 89 54 24 ? E9 ? ? ? ? 8B FF"), lagmem, cblagmem, 1)
+	{
+		if (!initialized())
+			throw std::exception("moblag::moblag: could not find lag address.");
+	}
+
+	moblag::~moblag()
+	{
+		// empty
+	}
 }

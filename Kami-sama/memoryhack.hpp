@@ -19,6 +19,7 @@
 
 #pragma once
 #include "common.h"
+#include <string>
 #include <boost/scoped_array.hpp>
 
 namespace memory
@@ -26,9 +27,12 @@ namespace memory
 	class memoryhack
 	{
 	public:
-		memoryhack(byte *address, byte *modifiedmemory, size_t count);
+		memoryhack(std::string aob, const byte *modifiedmemory, size_t count, size_t offset = 0);
+		memoryhack(byte *address, const byte *modifiedmemory, size_t count);
 		virtual ~memoryhack();
-		bool enable(bool enabled); // returns false if it fails to write the memory
+		virtual bool enable(bool enabled); // returns false if it fails to write the memory
+		bool initialized();
+		byte *getaddress();
 
 	protected:
 		bool enabled;
@@ -36,5 +40,7 @@ namespace memory
 		size_t count;
 		boost::scoped_array<byte> modified;
 		boost::scoped_array<byte> clean;
+
+		void init(const byte *modifiedmemory, size_t count);
 	};
 }

@@ -18,7 +18,7 @@
 */
 
 #include "iathook.hpp"
-#include "utils.h"
+#include "utils.hpp"
 
 namespace memory
 {
@@ -31,6 +31,7 @@ namespace memory
 
 	iathook::~iathook()
 	{
+		memory::makepagewritable(pfunction, sizeof(void *));
 		if (*pfunction == destination)
 			enable(false);
 	}
@@ -47,6 +48,7 @@ namespace memory
 
 	void *iathook::getpointervalue()
 	{
+		memory::makepagewritable(pfunction, sizeof(void *));
 		return *pfunction;
 	}
 
@@ -58,10 +60,9 @@ namespace memory
 		//if (!enabled && originalvalue == NULL) // disabling a hook that was never enabled
 			//return false;
 
-		memory::makepagewritable(pfunction, sizeof(void *));
-
 		void *valuetowrite = enabled ? destination : originalvalue;
 		originalvalue = enabled ? *pfunction : NULL;
+		memory::makepagewritable(pfunction, sizeof(void *));
 		*pfunction = valuetowrite;
 
 		return *pfunction == valuetowrite;

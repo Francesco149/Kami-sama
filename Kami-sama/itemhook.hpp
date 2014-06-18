@@ -20,32 +20,29 @@
 #pragma once
 
 #include "common.h"
+#include "utils.hpp"
 #include "iathook.hpp"
+
 #include <boost/thread/mutex.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include <Windows.h>
 #include <wx/msw/winundef.h>
 
 namespace maple
 {
-	class itemhook : public memory::iathook
+	class makesingleton(itemhook), public memory::iathook
 	{
 	public:
-		static boost::shared_ptr<itemhook> get();
+		itemhook();
 		virtual ~itemhook();
 		POINT getcoords();
 
 	protected:
-		static boost::shared_ptr<itemhook> inst;
-
 		boost::mutex mut;
 		void *retaddy;
 		POINT pt;
 
 		static BOOL WINAPI PartyInRectum(_In_ const RECT *lprc, _In_ POINT pt);
-
-		itemhook();
 		BOOL handle_PtInRect(void *returnaddress, _In_ const RECT *lprc, _In_ POINT pt);
 	};
 }

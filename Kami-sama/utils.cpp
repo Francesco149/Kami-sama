@@ -17,7 +17,7 @@
 	along with Kami-sama. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "utils.h"
+#include "utils.hpp"
 
 #include <Windows.h>
 #include <tchar.h>
@@ -26,8 +26,6 @@
 #pragma  comment(lib, "dbghelp")
 #pragma  comment(lib, "psapi")
 #include <exception>
-
-#define jmp(frm, to) (reinterpret_cast<int>(to) - reinterpret_cast<int>(frm) - 5)
 
 namespace maple
 {

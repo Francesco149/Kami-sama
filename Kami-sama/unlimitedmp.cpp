@@ -17,26 +17,24 @@
 	along with Kami-sama. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-#include "common.h"
-#include "utils.hpp"
+#include "unlimitedmp.hpp"
 
-#include <Windows.h>
-#include <wx/msw/winundef.h>
+makesingletoninstance(maple::unlimitedmp)
 
 namespace maple
 {
-	// wrapper to read and write data to TSingleton<CWvsPhysicalSpace2D>
-	class makesingleton(physicalspace)
-	{
-	public:
-		physicalspace();
-		virtual ~physicalspace();
-		POINT getltwall();
+	const byte unlimitedmpmem[] = { 0x90, 0x90 };
+	const size_t cbunlimitedmpmem = sizeof(unlimitedmpmem);
 
-	protected:
-		byte **TSingleton_CWvsPhysicalSpace2D___ms_pInstance; // TSingleton<CWvsPhysicalSpace2D> (wall base)
-		word offltwallx;
-		word offltwally;
-	};
+	unlimitedmp::unlimitedmp()
+		: memory::memoryhack(std::string("7D ? 33 FF 81 FB ? ? ? ? 75 ? 8B 6C 24 ? 8B CD"), unlimitedmpmem, cbunlimitedmpmem)
+	{
+		if (!initialized())
+			throw std::exception("unlimitedmp::unlimitedmp: could not find unlimited mp address.");
+	}
+
+	unlimitedmp::~unlimitedmp()
+	{
+		// empty
+	}
 }

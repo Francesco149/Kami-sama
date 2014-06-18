@@ -44,7 +44,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(WXWIN)\include;$(WXWIN)\include\msvc;$(BOOST_include)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;WINVER=0x0400;__WXMSW__;wxUSE_GUI=1;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;WXPLOITER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BYPASSLESS_KAMI;WIN32;_WINDOWS;WINVER=0x0400;__WXMSW__;wxUSE_GUI=1;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;WXPLOITER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
@@ -63,7 +63,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(WXWIN)\include;$(WXWIN)\include\msvc;$(BOOST_include)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;WINVER=0x0400;__WXMSW__;wxUSE_GUI=1;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BYPASSLESS_KAMI;WIN32;_WINDOWS;WINVER=0x0400;__WXMSW__;wxUSE_GUI=1;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
@@ -79,33 +79,51 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="aobscan.cpp" />
+    <ClCompile Include="cpuhack.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="droppool.cpp" />
+    <ClCompile Include="fullgodmode.cpp" />
+    <ClCompile Include="fusionattack.cpp" />
+    <ClCompile Include="gnd.cpp" />
     <ClCompile Include="iathook.cpp" />
+    <ClCompile Include="itemfilter.cpp" />
     <ClCompile Include="itemhook.cpp" />
     <ClCompile Include="kami.cpp" />
     <ClCompile Include="mainform.cpp" />
     <ClCompile Include="memoryhack.cpp" />
+    <ClCompile Include="moblag.cpp" />
     <ClCompile Include="mobpool.cpp" />
+    <ClCompile Include="perfectloot.cpp" />
     <ClCompile Include="physicalspace.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="skillinject.cpp" />
+    <ClCompile Include="unlimitedmp.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aobscan.hpp" />
     <ClInclude Include="common.h" />
+    <ClInclude Include="cpuhack.hpp" />
     <ClInclude Include="droppool.hpp" />
+    <ClInclude Include="fullgodmode.hpp" />
+    <ClInclude Include="fusionattack.hpp" />
+    <ClInclude Include="gnd.hpp" />
     <ClInclude Include="iathook.hpp" />
+    <ClInclude Include="itemfilter.hpp" />
     <ClInclude Include="itemhook.hpp" />
     <ClInclude Include="kami.hpp" />
     <ClInclude Include="mainform.hpp" />
     <ClInclude Include="memoryhack.hpp" />
+    <ClInclude Include="moblag.hpp" />
     <ClInclude Include="mobpool.hpp" />
+    <ClInclude Include="perfectloot.hpp" />
     <ClInclude Include="physicalspace.hpp" />
     <ClInclude Include="player.hpp" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="skillinject.hpp" />
+    <ClInclude Include="unlimitedmp.hpp" />
+    <ClInclude Include="utils.hpp" />
     <ClInclude Include="window.hpp" />
   </ItemGroup>
   <ItemGroup>

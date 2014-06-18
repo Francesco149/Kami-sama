@@ -17,26 +17,24 @@
 	along with Kami-sama. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-#include "common.h"
-#include "utils.hpp"
+#include "gnd.hpp"
 
-#include <Windows.h>
-#include <wx/msw/winundef.h>
+makesingletoninstance(maple::gnd)
 
 namespace maple
 {
-	// wrapper to read and write data to TSingleton<CWvsPhysicalSpace2D>
-	class makesingleton(physicalspace)
-	{
-	public:
-		physicalspace();
-		virtual ~physicalspace();
-		POINT getltwall();
+	const byte gndmem[] = { 0x01 };
+	const size_t cbgndmem = sizeof(gndmem);
 
-	protected:
-		byte **TSingleton_CWvsPhysicalSpace2D___ms_pInstance; // TSingleton<CWvsPhysicalSpace2D> (wall base)
-		word offltwallx;
-		word offltwally;
-	};
+	gnd::gnd()
+		: memory::memoryhack(std::string("00 00 00 00 8B 95 ? ? ? ? 89 55 ? 8B 85 ? ? ? ? 50 E8 ? ? ? ? 83 C4 ? 85 C0"), gndmem, cbgndmem)
+	{
+		if (!initialized())
+			throw std::exception("gnd::gnd: could not find gnd address.");
+	}
+
+	gnd::~gnd()
+	{
+		// empty
+	}
 }

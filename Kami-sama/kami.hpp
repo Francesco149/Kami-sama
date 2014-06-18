@@ -19,10 +19,13 @@
 
 #pragma once
 #include "common.h"
+#include "utils.hpp"
 
 #include "itemhook.hpp"
 #include "memoryhack.hpp"
+#ifdef BYPASSLESS_KAMI
 #include "iathook.hpp"
+#endif
 
 #include "player.hpp"
 #include "mobpool.hpp"
@@ -30,7 +33,6 @@
 #include "droppool.hpp"
 #include "window.hpp"
 
-#include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
@@ -41,10 +43,14 @@ namespace maple
 {
 	namespace pt = boost::posix_time;
 
-	class kami : protected memory::iathook
+#ifdef BYPASSLESS_KAMI
+	class makesingleton(kami), public memory::iathook
+#else
+	class makesingleton(kami), public memory::memoryhack
+#endif
 	{
 	public:
-		static boost::shared_ptr<kami> get();
+		kami();
 		virtual ~kami();
 		void teleport(long x, long y);
 		void teleporttomobs(bool loot, long xoff, long yoff, bool autoattack, bool spoofthread);
@@ -54,8 +60,6 @@ namespace maple
 		void unhook();
 
 	protected:
-		static boost::shared_ptr<kami> inst;
-		
 		boost::shared_ptr<itemhook> pitemhook;
 		boost::shared_ptr<player> pplayer;
 		boost::shared_ptr<mobpool> pmobpool;
@@ -80,7 +84,6 @@ namespace maple
 
 		boost::shared_ptr<memory::memoryhack> blockmovement;
 
-		kami();
 		void worker(bool loot, long xoff, long yoff, dword microsecondsdelay, bool autoattack);
 
 		bool loot; 

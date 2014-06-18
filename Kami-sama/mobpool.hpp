@@ -19,7 +19,7 @@
 
 #pragma once
 #include "common.h"
-#include <boost/shared_ptr.hpp>
+#include "utils.hpp"
 
 struct tagPOINT;
 typedef tagPOINT POINT;
@@ -27,17 +27,16 @@ typedef tagPOINT POINT;
 namespace maple
 {
 	// wrapper to read and write data to TSingleton<CMobPool>
-	class mobpool
+	class makesingleton(mobpool)
 	{
 	public:
-		static boost::shared_ptr<mobpool> get();
+		mobpool();
 		virtual ~mobpool();
 
 		dword size();
 		bool getcoords(POINT *ppt);
 
 	protected:
-		static boost::shared_ptr<mobpool> inst;
 		byte **TSingleton_CMobPool___ms_pInstance; // TSingleton<CMobPool> (mob base)
 		word offsize;
 		word offmob1;
@@ -48,7 +47,5 @@ namespace maple
 		word offinvy;
 		word offmobx;
 		word offmoby;
-
-		mobpool();
 	};
 }

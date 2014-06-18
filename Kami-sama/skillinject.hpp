@@ -18,25 +18,34 @@
 */
 
 #pragma once
-#include "common.h"
-#include "utils.hpp"
 
-#include <Windows.h>
-#include <wx/msw/winundef.h>
+#include "utils.hpp"
+#include "memoryhack.hpp"
+#include <list>
 
 namespace maple
 {
-	// wrapper to read and write data to TSingleton<CWvsPhysicalSpace2D>
-	class makesingleton(physicalspace)
+	class makesingleton(skillinject), public memory::memoryhack
 	{
 	public:
-		physicalspace();
-		virtual ~physicalspace();
-		POINT getltwall();
+		skillinject();
+		virtual ~skillinject();
+		virtual bool enable(bool enabled);
+		void setskillid(dword skillid);
+		void setdelay(dword delay);
 
 	protected:
-		byte **TSingleton_CWvsPhysicalSpace2D___ms_pInstance; // TSingleton<CWvsPhysicalSpace2D> (wall base)
-		word offltwallx;
-		word offltwally;
+		std::list<memory::memoryhack * const> haxlist;
+
+		memory::memoryhack skillinject1, skillinject2, skillinject3, skillinject4, 
+			skillinject5, skillinject6, skillinject7, skillinject8;
+
+		// TODO: don't make these static and use getters/setters
+		static dword skillid;
+		static dword delay;
+		static dword movoffset;
+		static dword retaddy;
+		static dword counter;
+		static void hook();
 	};
 }

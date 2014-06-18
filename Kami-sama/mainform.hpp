@@ -86,5 +86,15 @@ namespace kamisama
 		void OnKamiLootClicked(wxCommandEvent &e);
 		void OnKamiCSClicked(wxCommandEvent &e);
 		void OnKamiAutoAttackClicked(wxCommandEvent &e);
+
+		void OnGnDClicked(wxCommandEvent &e);
+		void OnPLootClicked(wxCommandEvent &e);
+		void OnUnlimMPClicked(wxCommandEvent &e);
+		void OnFullGMClicked(wxCommandEvent &e);
+		void OnFilterClicked(wxCommandEvent &e);
+		void OnCPUClicked(wxCommandEvent &e);
+		void OnFAClicked(wxCommandEvent &e);
+		void OnMobLagClicked(wxCommandEvent &e);
+		void OnSkillInjectClicked(wxCommandEvent &e);
 	};
 }

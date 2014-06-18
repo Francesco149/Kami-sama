@@ -19,7 +19,7 @@
 
 #include "mobpool.hpp"
 #include "aobscan.hpp"
-#include "utils.h"
+
 #include <Windows.h>
 //#include <wx/log.h>
 
@@ -57,19 +57,10 @@
 // 89 ? ? DD ? ? 8B ? ? DD ? ? DC ? ? 89 ? ? 8B ? ? 89 ? ? 8B ? ? DD
 
 #define basenull() (TSingleton_CMobPool___ms_pInstance == NULL)
+makesingletoninstance(maple::mobpool)
 
 namespace maple
 {
-	boost::shared_ptr<mobpool> mobpool::inst;
-
-	boost::shared_ptr<mobpool> mobpool::get()
-	{
-		if (!inst.get())
-			inst.reset(new mobpool);
-
-		return inst;
-	}
-
 	mobpool::mobpool()
 		: TSingleton_CMobPool___ms_pInstance(NULL), 
 		  offsize(0),
@@ -276,9 +267,6 @@ namespace maple
 				}
 
 				mob1 = *reinterpret_cast<byte **>(mob1 + 0x04);
-
-				if (mob1 == NULL)
-					return false;
 			}
 
 			// no mobs found

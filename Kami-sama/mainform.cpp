@@ -17,18 +17,70 @@
 	along with Kami-sama. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/*
+	Hacks AoBs
+
+	GnD: 00 00 00 00 8B 95 ? ? ? ? 89 55 ? 8B 85 ? ? ? ? 50 E8 ? ? ? ? 83 C4 ? 85 C0
+
+	PLoot:
+	tubi: 89 86 ? ? ? ? E8 ? ? ? ? 89 86 ? ? ? ? 5E C2 ? ? CC CC CC CC
+	instadrop: 0D ? ? ? ? 83 C4 ? E9 ? ? ? ? DD 05 ? ? ? ? DC C9
+	nolootanim: 81 FE ? ? ? ? 0F 8D ? ? ? ? 85 ED 0F 84 ? ? ? ? 81 FE ? ? ? ? BF ? ? ? ? 7E ? B8 ? ? ? ? 2B C6
+
+	Unlimited MP: 7D ? 33 FF 81 FB ? ? ? ? 75 ? 8B 6C 24 ? 8B CD
+	Full Godmode 1: 6A ? 68 ? ? ? ? 64 A1 ? ? ? ? 50 81 EC ? ? ? ? 53 55 56 57 A1 ? ? ? ? 33 C4 50 8D 84 24 ? ? ? ? 64 A3 ? ? ? ? 8B F1 C7 44 24 ? ? ? ? ? 8B 2D ? ? ? ? 8D 84 24
+	Full Godmode 2: 55 8D 6C 24 ? 83 EC ? 6A ? 68 ? ? ? ? 64 A1 ? ? ? ? 50 83 EC ? A1 ? ? ? ? 33 C5 89 45 ? 53 56 57 50 8D 45 ? 64 A3 ? ? ? ? 8B F9 8B 87 ? ? ? ? 8B 88 ? ? ? ? 51
+	Item filter: 8B CF 89 46 ? E8 ? ? ? ? 8B CF 89 46 ? E8 ? ? ? ? 0F B6 D0
+
+	CPU Hack: 
+	nobg, noobj, notiles: E8 ? ? ? ? 8B CF E8 ? ? ? ? 8B CF E8 ? ? ? ? 8B CF E8 ? ? ? ? 8B CF E8 ? ? ? ? 8B CF E8 ? ? ? ? 8B CF E8 ? ? ? ? 51 8B C4
+	noclouds: 55 8D 6C 24 ? 83 EC ? 6A ? 68 ? ? ? ? 64 A1 ? ? ? ? 50 83 EC ? A1 ? ? ? ? 33 C5 89 45 ? 53 56 57 50 8D 45 ? 64 A3 ? ? ? ? 89 4D ? 51
+	nodmg:
+	7C ? B8 ? ? ? ? E8 ? ? ? ? 8B C4 6A ? 50
+	0F 84 ? ? ? ? 2D ? ? ? ? 75 ? 85 DB 74 ? 8B 13
+	7E ? 8B 54 24 ? 52 8B 54 24 ? 52 51
+	75 ? 8B 44 24 ? 50 6A ? 51
+	7D ? 8B 4C 24 ? 8B 54 24 ? 51 52
+
+	Fusion Attack: 89 34 81 40 89 44 24 ? 8B 44 24 ? 85 C0
+	Mob Lag: 77 ? 89 54 24 ? E9 ? ? ? ? 8B FF 5D
+
+	Skill Inject:
+	0F 84 ? ? ? ? 2B 9E ? ? ? ? 0F 88 ? ? ? ? 8B 86 ? ? ? ? 50
+	0F 84 ? ? ? ? 8B 16 8B 42 ? 8B CE FF D0 3D ? ? ? ? 74 ? 3D ? ? ? ? 74 ? 3D ? ? ? ? 74 ? 3D ? ? ? ? 74 ? 3D ? ? ? ? 75 ? 8D 4C 24 ? 51
+	75 ? 8B 86 ? ? ? ? 50 E8 ? ? ? ? 83 C4 ? 83 F8 ? 0F 85 ? ? ? ? 8B 8E ? ? ? ? 8B 54 24 ? 6A ? 6A ? 6A ? 8D 44 24 ? 50 51
+	0F 85 ? ? ? ? 8B 8E ? ? ? ? 8B 54 24 ? 6A ? 6A ? 6A ?
+	hook: 8B 8E ? ? ? ? 8B 54 24 ? 6A ? 6A ? 6A ? 8D 44 24 ? 50
+	0F 87 ? ? ? ? 0F B6 80 ? ? ? ? FF 24 85 ? ? ? ? 84 DB 74 ? 8B 8E ? ? ? ? 85 C9
+	FF 24 85 ? ? ? ? 84 DB 74 ? 8B 8E ? ? ? ? 85 C9
+	75 ? C7 85 ? ? ? ? ? ? ? ? EB ? C7 85 ? ? ? ? ? ? ? ? 8B 95 ? ? ? ? 89 55 ? 8B 85 ? ? ? ? 50
+	7D ? 33 F6 89 74 24 ? 85 FF 7D ? 33 FF 81 FB ? ? ? ? 75 ? 8B 6C 24 ?
+*/
+
 #include "mainform.hpp"
 #include "resource.h"
-#include "utils.h"
+#include "utils.hpp"
 
 #include "itemhook.hpp"
 #include "kami.hpp"
+
+#include "gnd.hpp"
+#include "perfectloot.hpp"
+#include "unlimitedmp.hpp"
+#include "fullgodmode.hpp"
+#include "itemfilter.hpp"
+#include "cpuhack.hpp"
+#include "fusionattack.hpp"
+#include "moblag.hpp"
+#include "skillinject.hpp"
 
 #include <boost/lexical_cast.hpp>
 
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 #include <wx/slider.h>
+
+#include <list>
 
 //#define SEPARATETHREAD
 
@@ -42,7 +94,7 @@ namespace kamisama
 	// {{{
 	// app begin
 	const wxString app::appname = "Kami-sama";
-	const wxString app::appver = "r1";
+	const wxString app::appver = "r2";
 
 	void app::rundll(HINSTANCE hInstance)
 	{
@@ -83,7 +135,7 @@ namespace kamisama
 		mainform *frame;
 
 		// create main frame
-		mainform::init(hInstance, appname, wxDefaultPosition, wxSize(340, 305));
+		mainform::init(hInstance, appname, wxDefaultPosition, wxSize(340, 485));
 		frame = mainform::get();
 
 		if (!frame) // out of memory?
@@ -166,8 +218,7 @@ namespace kamisama
 		Bind(wxEVT_CLOSE_WINDOW, &mainform::OnClose, this);
 
 		// kami groupbox
-		wxStaticBoxSizer *kamibox = new wxStaticBoxSizer(wxVERTICAL,
-			basepanel, "Kami");
+		wxStaticBoxSizer *kamibox = new wxStaticBoxSizer(wxVERTICAL, basepanel, "Kami");
 		{
 			wxStaticBox *box = kamibox->GetStaticBox();
 
@@ -226,21 +277,121 @@ namespace kamisama
 			kamibox->Add(sliderkamispeed, 0, wxRIGHT | wxLEFT | wxBOTTOM | wxEXPAND, 10);
 			kamibox->Add(labelkamispeedvalue, 0, wxRIGHT | wxLEFT | wxBOTTOM | 
 				wxEXPAND | wxALIGN_CENTER_HORIZONTAL, 10);
-			kamibox->Add(sizercheckboxes, 0, wxRIGHT | wxLEFT | wxEXPAND, 10);
+			kamibox->Add(sizercheckboxes, 0, wxRIGHT | wxLEFT | wxBOTTOM | wxEXPAND, 10);
 		}
 
-		basesizer->Add(kamibox, 1, wxALL | wxEXPAND, 10);
+		// hacks groupbox
+		wxStaticBoxSizer *hacksbox = new wxStaticBoxSizer(wxVERTICAL, basepanel, "Hacks");
+		{
+			wxStaticBox *box = hacksbox->GetStaticBox();
+
+			wxGridSizer *grid = new wxGridSizer(4, 5, 5);
+			{
+				wxCheckBox *tmp;
+				std::vector<wxCheckBox * const> checkboxes;
+
+				checkboxes.push_back(tmp = new wxCheckBox(box, wxID_ANY, "GnD"));
+				tmp->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &mainform::OnGnDClicked, this);
+
+				checkboxes.push_back(tmp = new wxCheckBox(box, wxID_ANY, "P.Loot"));
+				tmp->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &mainform::OnPLootClicked, this);
+
+				checkboxes.push_back(tmp = new wxCheckBox(box, wxID_ANY, wxT("\x221E MP")));
+				tmp->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &mainform::OnUnlimMPClicked, this);
+
+				checkboxes.push_back(tmp = new wxCheckBox(box, wxID_ANY, "Full GM"));
+				tmp->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &mainform::OnFullGMClicked, this);
+
+				checkboxes.push_back(tmp = new wxCheckBox(box, wxID_ANY, "Filter"));
+				tmp->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &mainform::OnFilterClicked, this);
+
+				checkboxes.push_back(tmp = new wxCheckBox(box, wxID_ANY, "CPU Hax"));
+				tmp->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &mainform::OnCPUClicked, this);
+
+				checkboxes.push_back(tmp = new wxCheckBox(box, wxID_ANY, "FA"));
+				tmp->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &mainform::OnFAClicked, this);
+
+				checkboxes.push_back(tmp = new wxCheckBox(box, wxID_ANY, "Mob Lag"));
+				tmp->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &mainform::OnMobLagClicked, this);
+
+				boost_foreach(wxCheckBox * const & cb, checkboxes)
+					grid->Add(cb);
+			}
+
+			hacksbox->AddSpacer(5);
+			hacksbox->Add(grid, 0, wxRIGHT | wxLEFT | wxBOTTOM | wxEXPAND, 10);
+		}
+
+		// skill inject groupbox
+		wxStaticBoxSizer *skillinjectbox = new wxStaticBoxSizer(wxVERTICAL, basepanel, "Skill Injection");
+		{
+			wxStaticBox *box = skillinjectbox->GetStaticBox();
+
+			wxComboBox *comboskillid = new wxComboBox(box, wxID_ANY, wxEmptyString, wxDefaultPosition, 
+				wxDefaultSize, wxArrayString(), wxCB_READONLY);
+			{
+				wxArrayString choices;
+
+				choices.Add("27121202: Apocalypse (Luminous)");
+				choices.Add("27001201: Abyssal Drop (Luminous)");
+				choices.Add("27111202: Moonlight Spear (Luminous)");
+				choices.Add("61001005: Dragon Slash (Kaiser)");
+				choices.Add("61121104: Blade Burst (Kaiser)");
+				choices.Add("31121001: Demon Impact (Dragon Slayer)");
+				choices.Add("1001005: Slash Blast (Paladin)");
+				comboskillid->Append(choices);
+
+				comboskillid->SetClientData(0, reinterpret_cast<void *>(27121202)); // ghetto as fuck
+				comboskillid->SetClientData(1, reinterpret_cast<void *>(27001201));
+				comboskillid->SetClientData(2, reinterpret_cast<void *>(27111202));
+				comboskillid->SetClientData(3, reinterpret_cast<void *>(61001005));
+				comboskillid->SetClientData(4, reinterpret_cast<void *>(61121104));
+				comboskillid->SetClientData(5, reinterpret_cast<void *>(31121001));
+				comboskillid->SetClientData(6, reinterpret_cast<void *>(1001005));
+
+				comboskillid->SetSelection(0);
+			}
+
+			wxCheckBox *enable = new wxCheckBox(box, wxID_ANY, "Enable");
+			enable->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &mainform::OnSkillInjectClicked, this);
+
+			skillinjectbox->AddSpacer(5);
+			skillinjectbox->Add(comboskillid, 0, wxRIGHT | wxLEFT | wxBOTTOM | wxEXPAND, 10);
+			skillinjectbox->Add(enable, 0, wxRIGHT | wxLEFT | wxBOTTOM | wxEXPAND, 10);
+		}
+
+		basesizer->Add(kamibox, 0, wxALL | wxEXPAND, 10);
+		basesizer->Add(hacksbox, 0, wxRIGHT | wxLEFT | wxBOTTOM | wxEXPAND, 10);
+		basesizer->Add(skillinjectbox, 0, wxRIGHT | wxLEFT | wxBOTTOM | wxEXPAND, 10);
 
 		basepanel->SetAutoLayout(true);
 		basepanel->SetSizer(basesizer);
 		basepanel->Layout(); // fixes the layout snapping into place after the first resize
 
-		// force kami's singleton to init here to avoid lag when first enabling kami
-		maple::kami::get();
+		try
+		{
+			// force kami's singleton to init here to avoid lag when first enabling kami
+			maple::kami::get();
 
-		// enable hooks that are always active
-		if (!maple::itemhook::get()->enable(true))
-			wxLogWarning("Failed to enable item hook! Loot will not work.");
+			// enable hooks that are always active
+			if (!maple::itemhook::get()->enable(true))
+				wxLogWarning("Failed to enable item hook! Loot will not work.");
+		
+			// force all hacks singletons to initialize
+			maple::gnd::get();
+			maple::perfectloot::get();
+			maple::unlimitedmp::get();
+			maple::fullgodmode::get();
+			maple::itemfilter::get();
+			maple::cpuhack::get();
+			maple::fusionattack::get();
+			maple::moblag::get();
+			maple::skillinject::get();
+		}
+		catch (const std::exception &e)
+		{
+			app::fatal(e.what());
+		}
 
 		wxLogStatus("Idle.");
 	}
@@ -276,6 +427,16 @@ namespace kamisama
 
 		if (!maple::itemhook::get()->enable(false))
 			wxLogError("Failed to disable item hook! This might cause MapleStory to crash.");
+
+		maple::gnd::get()->enable(false);
+		maple::perfectloot::get()->enable(false);
+		maple::unlimitedmp::get()->enable(false);
+		maple::fullgodmode::get()->enable(false);
+		maple::itemfilter::get()->enable(false);
+		maple::cpuhack::get()->enable(false);
+		maple::fusionattack::get()->enable(false);
+		maple::moblag::get()->enable(false);
+		maple::skillinject::get()->enable(false);
 
 		e.Skip();
 	}
@@ -367,6 +528,62 @@ namespace kamisama
 	void mainform::OnKamiAutoAttackClicked(wxCommandEvent &e)
 	{
 		autoattack = e.IsChecked();
+	}
+
+	void mainform::OnGnDClicked(wxCommandEvent &e)
+	{
+		maple::gnd::get()->enable(e.IsChecked());
+	}
+
+	void mainform::OnPLootClicked(wxCommandEvent &e)
+	{
+		maple::perfectloot::get()->enable(e.IsChecked());
+	}
+
+	void mainform::OnUnlimMPClicked(wxCommandEvent &e)
+	{
+		maple::unlimitedmp::get()->enable(e.IsChecked());
+	}
+
+	void mainform::OnFullGMClicked(wxCommandEvent &e)
+	{
+		maple::fullgodmode::get()->enable(e.IsChecked());
+	}
+
+	void mainform::OnFilterClicked(wxCommandEvent &e)
+	{
+		maple::itemfilter::get()->enable(e.IsChecked());
+	}
+
+	void mainform::OnCPUClicked(wxCommandEvent &e)
+	{
+		maple::cpuhack::get()->enable(e.IsChecked());
+	}
+
+	void mainform::OnFAClicked(wxCommandEvent &e)
+	{
+		maple::fusionattack::get()->enable(e.IsChecked());
+	}
+
+	void mainform::OnMobLagClicked(wxCommandEvent &e)
+	{
+		maple::moblag::get()->enable(e.IsChecked());
+	}
+
+	void mainform::OnSkillInjectClicked(wxCommandEvent &e)
+	{
+		boost::shared_ptr<maple::skillinject> psi = maple::skillinject::get();
+
+		if (e.IsChecked())
+		{
+			dword skillid = reinterpret_cast<dword>(e.GetClientData());
+			
+			psi->setdelay(1);
+			psi->setskillid(skillid);
+			psi->enable(true);
+		}
+		else
+			psi->enable(false);
 	}
 	// mainform end
 	// }}}

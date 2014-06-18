@@ -19,7 +19,6 @@
 
 #include "kami.hpp"
 #include "aobscan.hpp"
-#include "utils.h"
 
 #include <boost/make_shared.hpp>
 
@@ -38,20 +37,17 @@
 // kami hook return addy check
 // 8B C8 B8 ? ? ? ? F7 E9 C1 FA ? 8B C2 C1 E8 ? 03 C2 83 F8 ? 74 ? 81 F9 ? ? ? ? 75 ? 80 BE ? ? ? ? ? 74 ? 8B 56 ? 8B 42
 
+makesingletoninstance(maple::kami)
+
 namespace maple
 {
-	boost::shared_ptr<kami> kami::inst;
-
-	boost::shared_ptr<kami> kami::get()
-	{
-		if (!inst.get())
-			inst.reset(new kami);
-
-		return inst;
-	}
-
 	kami::kami()
-		: memory::iathook(NULL, kamihook), 
+		#ifdef BYPASSLESS_KAMI
+		: memory::iathook(NULL, kamihook),
+		#else
+		: memory::memoryhack(std::string("8B 06 8B 50 ? FF D2 8B C8 B8 ? ? ? ? F7 E9 C1 FA ? 8B C2 C1 E8 ? "
+			"03 C2 83 F8 ? 74 ? 81 F9 ? ? ? ? 75 ? 80 BE ? ? ? ? ? 74 ? 8B 56 ? 8B 42 ? 8D 4E ? FF D0"), NULL, 5), 
+		#endif
 		  GetCVecCtrlUser(NULL), 
 		  CVecCtrlUser__OnTeleport(NULL), 
 		  pitemhook(itemhook::get()), 
@@ -66,7 +62,7 @@ namespace maple
 		size_t cbmodule = maple::size();
 
 		// GetCVecCtrlUser
-		memory::aobscan getcvec("8B ? ? ? ? ? 85 ? 74 ? 83 ? ? 74 ? 83 ? ? C3", pmodule, cbmodule, 7);
+		memory::aobscan getcvec("8B ? ? ? ? ? 85 ? 74 ? 83 ? ? 74 ? 83 ? ? C3", pmodule, cbmodule, 8);
 
 		if (!getcvec.result())
 			throw std::exception("kami::kami: could not find GetCVecCtrlUser!");
@@ -91,6 +87,7 @@ namespace maple
 		blockmovement.reset(new memory::memoryhack(blockmov.result(), blockmovmemory, 1));
 
 		// kami hook
+#ifdef BYPASSLESS_KAMI
 		memory::aobscan hookpointer("C7 ? ? ? ? ? C7 ? ? ? ? ? ? C7 ? ? ? ? ? ? C7 ? ? ? ? ? ? ? ? ? 8B"
 			" ? ? ? ? ? 8B ? ? ? ? ? 50 C7 ? ? ? ? ? ? ? E8 ? ? ? ? 8B ? ? ? ? ? 33", pmodule, cbmodule);
 
@@ -116,6 +113,18 @@ namespace maple
 			throw std::exception("kami::kami: could not find kami hook return address!");
 
 		kamiretcheck = reinterpret_cast<dword>(retaddycheck.result());
+#else
+		// TODO: find a less ugly way to reuse code from memoryhack
+		if (!address)
+			throw std::exception("kami::kami: could not find kami hook addy!");
+
+		// calculate the jump distance and store jump opcode + distance in the modified memory array
+		byte tmp[5] = {0};
+		tmp[0] = 0xE9;
+		*reinterpret_cast<dword *>(tmp + 1) = jmp(address, kamihook);
+		std::copy(tmp, tmp + 5, modified.get());
+		kamiret = reinterpret_cast<dword>(address) + 5;
+#endif
 	}
 
 	kami::~kami()
@@ -213,7 +222,9 @@ namespace maple
 		this->microsecondsdelay = microsecondsdelay;
 		this->autoattack = autoattack;
 
+#ifdef BYPASSLESS_KAMI
 		kamiret = reinterpret_cast<dword>(getpointervalue());
+#endif
 		enable(true);
 	}
 
@@ -238,6 +249,8 @@ namespace maple
 	}
 
 	dword kami::kamiret = NULL;
+
+#ifdef BYPASSLESS_KAMI
 	dword kami::kamiretcheck = NULL;
 
 	void __declspec(naked) kami::kamihook()
@@ -254,4 +267,18 @@ namespace maple
 			jmp [kamiret]
 		}
 	}
+#else
+	void __declspec(naked) kami::kamihook()
+	{
+		__asm
+		{
+			mov eax,[esi]
+			mov edx,[eax+0x60]
+			pushad
+			call handlekamicall
+			popad
+			jmp [kamiret]
+		}
+	}
+#endif
 }
