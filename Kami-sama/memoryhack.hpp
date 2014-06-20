@@ -27,7 +27,7 @@ namespace memory
 	class memoryhack
 	{
 	public:
-		memoryhack(std::string aob, const byte *modifiedmemory, size_t count, size_t offset = 0);
+		memoryhack(std::string aob, const byte *modifiedmemory, size_t count, size_t offset = 0, int index = 0);
 		memoryhack(byte *address, const byte *modifiedmemory, size_t count);
 		virtual ~memoryhack();
 		virtual bool enable(bool enabled); // returns false if it fails to write the memory

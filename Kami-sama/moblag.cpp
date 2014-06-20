@@ -27,7 +27,7 @@ namespace maple
 	const size_t cblagmem = sizeof(lagmem);
 
 	moblag::moblag()
-		: memory::memoryhack(std::string("77 ? 89 54 24 ? E9 ? ? ? ? 8B FF"), lagmem, cblagmem, 1)
+		: memory::memoryhack(std::string("77 ? 89 54 24 ? E9 ? ? ? ? 8B FF"), lagmem, cblagmem, 0, 1)
 	{
 		if (!initialized())
 			throw std::exception("moblag::moblag: could not find lag address.");

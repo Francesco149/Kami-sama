@@ -28,15 +28,10 @@ namespace maple
 
 	fullgodmode::fullgodmode()
 		: fullgm1(std::string("6A ? 68 ? ? ? ? 64 A1 ? ? ? ? 50 81 EC ? ? ? ? 53 55 56 57 A1 ? ? ? ? 33 C4 50 8D 84 24 "
-			"? ? ? ? 64 A3 ? ? ? ? 8B F1 C7 44 24 ? ? ? ? ? 8B 2D ? ? ? ? 8D 84 24"), fullgmmem, cbfullgmmem), 
-		  fullgm2(std::string("55 8D 6C 24 ? 83 EC ? 6A ? 68 ? ? ? ? 64 A1 ? ? ? ? 50 83 EC ? A1 ? ? ? ? 33 C5 89 45 ? 53 "
-			"56 57 50 8D 45 ? 64 A3 ? ? ? ? 8B F9 8B 87 ? ? ? ? 8B 88 ? ? ? ? 51"), fullgmmem, cbfullgmmem)
+			"? ? ? ? 64 A3 ? ? ? ? 8B F1 C7 44 24 ? ? ? ? ? 8B 2D ? ? ? ? 8D 84 24"), fullgmmem, cbfullgmmem)
 	{
 		if (!fullgm1.initialized())
 			throw std::exception("fullgodmode::fullgodmode: could not find first address.");
-
-		if (!fullgm2.initialized())
-			throw std::exception("fullgodmode::fullgodmode: could not find second address.");
 	}
 
 	fullgodmode::~fullgodmode()
@@ -46,13 +41,10 @@ namespace maple
 
 	bool fullgodmode::enable(bool enabled)
 	{
-		bool res = fullgm1.enable(enabled) && fullgm2.enable(enabled);
+		bool res = fullgm1.enable(enabled);
 
 		if (!res)
-		{
 			fullgm1.enable(!enabled);
-			fullgm2.enable(!enabled);
-		}
 
 		return res;
 	}

@@ -39,14 +39,14 @@ namespace memory
 		std::copy(address, address + count, clean.get());
 	}
 
-	memoryhack::memoryhack(std::string aob, const byte *modifiedmemory, size_t count, size_t offset)
+	memoryhack::memoryhack(std::string aob, const byte *modifiedmemory, size_t count, size_t offset, int index)
 		: enabled(false), 
 		  address(NULL), 
 		  count(0)
 	{
 		void *pmodule = maple::base();
 		size_t cbmodule = maple::size();
-		memory::aobscan scanaddy(aob, pmodule, cbmodule);
+		memory::aobscan scanaddy(aob, pmodule, cbmodule, index);
 
 		if (scanaddy.result() != NULL)
 		{

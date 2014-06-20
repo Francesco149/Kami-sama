@@ -70,6 +70,7 @@ namespace kamisama
 		wxTextCtrl *textkamioffsety;
 		wxSlider *sliderkamispeed;
 		wxStaticText *labelkamispeedvalue;
+		wxComboBox *comboskillid;
 		bool lootchecked;
 		bool isclientsided;
 		bool autoattack;

@@ -32,6 +32,6 @@ namespace maple
 		bool enable(bool enabled);
 
 	protected:
-		memory::memoryhack fullgm1, fullgm2;
+		memory::memoryhack fullgm1;
 	};
 }

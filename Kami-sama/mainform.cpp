@@ -327,7 +327,7 @@ namespace kamisama
 		{
 			wxStaticBox *box = skillinjectbox->GetStaticBox();
 
-			wxComboBox *comboskillid = new wxComboBox(box, wxID_ANY, wxEmptyString, wxDefaultPosition, 
+			comboskillid = new wxComboBox(box, wxID_ANY, wxEmptyString, wxDefaultPosition, 
 				wxDefaultSize, wxArrayString(), wxCB_READONLY);
 			{
 				wxArrayString choices;
@@ -576,8 +576,11 @@ namespace kamisama
 
 		if (e.IsChecked())
 		{
-			dword skillid = reinterpret_cast<dword>(e.GetClientData());
+			dword skillid = reinterpret_cast<dword>(comboskillid->GetClientData(comboskillid->GetSelection()));
 			
+			if (skillid == 0)
+				wxLogFatalError("Something went wrong with the skill id combo box. Report this to the developer");
+
 			psi->setdelay(1);
 			psi->setskillid(skillid);
 			psi->enable(true);
